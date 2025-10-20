@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Minuteur</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .countdown-banner {
+      width: 100%;
+      background-color: #E9952F;
+      color: #FFFFFF;
+      padding: 15px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .banner-content {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .launch-text {
+      display: flex;
+      align-items: center;
+      font-size: 1.2em;
+      white-space: nowrap;
+    }
+
+    .launch-text .icon {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: 20px;
+      align-items: end;
+    }
+
+    .time-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .number {
+      font-size: 2em;
+      font-weight: bold;
+      color: #FFFFFF;
+    }
+
+    .label {
+      font-size: 0.9em;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    @media (max-width: 600px) {
+      .banner-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .launch-text {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="countdown-banner">
+    <div class="banner-content">
+      <div class="launch-text">
+        <span class="icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
+            <path d="M12 1a11 11 0 1 0 0 22 11 11 0 0 0 0-22zm0 20a9 9 0 1 1 0-18 9 9 0 0 1 0 18zm.5-9.293V6h-1v6h5v-1h-4z"/>
+          </svg>
+        </span>
+        <span>Temps restant avant lancement</span>
+      </div>
+      <div class="countdown-grid" id="countdown">
+        <div class="time-block">
+          <div class="number" id="days">0</div>
+          <div class="label">JOURS</div>
+        </div>
+        <div class="time-block">
+          <div class="number" id="hours">0</div>
+          <div class="label">HEURES</div>
+        </div>
+        <div class="time-block">
+          <div class="number" id="minutes">0</div>
+          <div class="label">MINUTES</div>
+        </div>
+        <div class="time-block">
+          <div class="number" id="seconds">0</div>
+          <div class="label">SECONDES</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const targetDate = new Date("Dec 31, 2025 23:59:59").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        document.getElementById("countdown").innerHTML =
+          "<div style='grid-column: span 4; font-size: 1.5em;'>EXPIRÉ</div>";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = hours;
+      document.getElementById("minutes").textContent = minutes;
+      document.getElementById("seconds").textContent = seconds;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
